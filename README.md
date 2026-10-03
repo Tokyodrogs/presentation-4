@@ -11,16 +11,18 @@ Challenge XI. Sablayan National Comprehensive High School (SABNAHIS), Grade 12 �
 
 ---
 
-## Run it
+## Open the deck
 
-No build step, no dependencies.
+**Double-click `index.html`.** That's it.
 
-```bash
-python3 -m http.server 8080
-# open http://localhost:8080
-```
+It is a single self-contained file — all markup, styles and scripts are inside it. It needs
+no server, no internet connection, no fonts to download and no folder structure around it.
+You can email it, put it on a USB stick, or open it from a Downloads folder and it will work
+exactly the same.
 
-Any static server works. You can also just open `index.html` directly in a browser.
+> If you previously saw the deck render as a wall of unstyled text, that was the old
+> multi-file version failing to find its `css/` and `js/` folders. This file has no such
+> dependency.
 
 ## Present it
 
@@ -35,22 +37,34 @@ Any static server works. You can also just open `index.html` directly in a brows
 | `H` | Hide the control bar |
 | `Esc` | Close notes / overview |
 
-Swipe left and right on a tablet. The URL hash tracks the slide (`#1`–`#10`), so you can
-bookmark or reload straight into a slide.
+Swipe left and right on a tablet. The buttons at the bottom do the same thing if you would
+rather not use the keyboard.
 
-**Export to PDF:** print the page (Ctrl/Cmd+P). The print stylesheet lays out one
-1920×1080 slide per page, with all build-in animations forced to their final state.
+**Export to PDF:** print the page (`Ctrl`/`Cmd` + `P`) and choose "Save as PDF". The print
+stylesheet lays out one 1920×1080 slide per page with all animations forced to their final
+state — so the PDF shows finished slides, not blank ones.
 
-## Files
+## Repo layout
 
 ```
-index.html              all 10 slides, with inline SVG scenes
-css/deck.css            design system, chrome, build-in animations, print rules
-css/scenes.css          per-slide cinematic scenes
-js/deck.js              navigation, scaling, speaker notes, overview, chrome injection
-assets/                 drop sabnahis-seal.png here — see assets/README.md
-PASSABLE-BA-pitch-deck.md   the full written build sheet this deck implements
+index.html      ← THE DECK. Self-contained. This is the file you present and share.
+build.py        regenerates index.html from src/
+src/shell.html  slide markup (the source of truth for content)
+src/deck.css    design system, chrome, animations, print rules
+src/scenes.css  per-slide cinematic scenes
+src/deck.js     navigation, scaling, speaker notes, overview
+PASSABLE-BA-pitch-deck.md   the written build sheet this deck implements
+assets/         optional: drop the school seal here
 ```
+
+`index.html` is **generated**. Edit files in `src/`, then:
+
+```bash
+python3 build.py
+```
+
+That inlines everything back into a single `index.html`. Don't hand-edit `index.html` —
+your changes will be overwritten on the next build.
 
 ## Design system
 
@@ -61,13 +75,14 @@ PASSABLE-BA-pitch-deck.md   the full written build sheet this deck implements
 | Warning amber | `#FFB800` | caution states, unknowns, risk cards |
 | Danger red | `#FF2D2D` | **only** "NOT PASSABLE" — slides 5 and 10 |
 
-Display type is Inter Tight, body is Inter, and all readouts (`WATER LEVEL: 40 CM`,
-sensor IDs, timestamps) use JetBrains Mono so instrumentation reads as instrumentation.
+Type uses system font stacks, so nothing is downloaded at presentation time. All readouts
+(`WATER LEVEL: 40 CM`, sensor IDs, timestamps) use the monospace stack, so instrumentation
+reads as instrumentation.
 
 ## Honesty rules — do not break these
 
-The deck deliberately carries three mandatory labels. They are the reason a judge can
-trust the numbers on the other slides.
+The deck deliberately carries three mandatory labels. They are the reason a judge can trust
+the numbers on the other slides.
 
 - **Slide 7** — `PROPOSED INITIAL PRICING — NOT MARKET-ESTABLISHED`
 - **Slide 5** — `MOCKUP — ILLUSTRATIVE INTERFACE. NOT A LIVE SYSTEM.`
@@ -75,17 +90,25 @@ trust the numbers on the other slides.
 
 Never claim deployed sensors, real partnerships, tested accuracy, users, revenue, or that
 existing government systems do nothing. Two statistics appear in the deck, both cited
-on-slide: PAGASA's ~20 cyclones per year, and Marikina City's 15 m / 16 m / 18 m river
-alarm levels at the Sto. Niño Bridge gauge.
+on-slide: PAGASA's ~20 cyclones per year, and Marikina City's 15 m / 16 m / 18 m river alarm
+levels at the Sto. Niño Bridge gauge.
 
-Slide 4 explicitly acknowledges that PAGASA and DOST already monitor river levels. That
-is intentional — the pitch is the street-level passability layer, not a claim that nothing
-is monitored today.
+Slide 4 explicitly acknowledges that PAGASA and DOST already monitor river levels. That is
+intentional — the pitch is the street-level passability layer, not a claim that nothing is
+monitored today.
 
 Red is allowed on slides 5 and 10 only. If it spreads to the risk cards on slide 9, the
 NOT PASSABLE state stops reading as a warning.
 
 ## Adding the school seal
 
-See `assets/README.md`. Drop `sabnahis-seal.png` into `assets/` and it appears on all ten
-slides automatically.
+The deck reserves a seal slot in the bottom-right of every slide, at 14% opacity. It is
+invisible until the file exists, and never shows a broken image.
+
+1. Save the official seal as `assets/sabnahis-seal.png` (square, transparent background, 512×512+)
+2. Put it in an `assets/` folder **next to `index.html`**
+3. Reload — it appears on all ten slides
+
+Because the deck is a single file, the seal is the one optional external asset. If you need
+it embedded so the deck travels as one file with no folder, ask and it can be base64-inlined
+into `index.html`.

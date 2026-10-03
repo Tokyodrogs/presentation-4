@@ -138,7 +138,12 @@
     bar.style.width = ((current + 1) / slides.length * 100) + '%';
 
     renderNotes();
-    history.replaceState(null, '', '#' + (current + 1));
+
+    // replaceState throws SecurityError on file:// in some browsers.
+    // Never let a URL nicety break navigation.
+    try {
+      history.replaceState(null, '', '#' + (current + 1));
+    } catch (err) { /* file:// — ignore */ }
   }
 
   function next() { goTo(current + 1); }
@@ -172,10 +177,16 @@
   }
 
   function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      (document.documentElement.requestFullscreen || function () {}).call(document.documentElement);
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
+    try {
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        }
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    } catch (err) {
+      /* fullscreen is blocked in some file:// contexts — not fatal */
     }
   }
 
