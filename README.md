@@ -44,6 +44,11 @@ rather not use the keyboard.
 stylesheet lays out one 1920×1080 slide per page with all animations forced to their final
 state — so the PDF shows finished slides, not blank ones.
 
+**If the deck ever looks off-centre or cut off:** that was a real bug, fixed by centring the
+deck with absolute positioning (`left: 50%; top: 50%; translate(-50%,-50%) scale(...)`)
+instead of flex/grid centring. An oversized child in a centred flex/grid container overflows
+unpredictably across browsers. Don't reintroduce flex/grid centring on `#deck`.
+
 ## Repo layout
 
 ```
@@ -53,9 +58,15 @@ src/shell.html  slide markup (the source of truth for content)
 src/deck.css    design system, chrome, animations, print rules
 src/scenes.css  per-slide cinematic scenes
 src/deck.js     navigation, scaling, speaker notes, overview
-PASSABLE-BA-pitch-deck.md   the written build sheet this deck implements
+PHILIPPINE-STARTUP-CHALLENGE-XI.md   the full written competition entry (Sections I–X)
+PASSABLE-BA-pitch-deck.md            the slide-by-slide build sheet
 assets/         optional: drop the school seal here
 ```
+
+Two deliverables, two audiences: the **deck** is what you present on screen; the
+**competition entry** is the written submission with the objectives, market analysis,
+operations plan and the ₱150,000–₱250,000 funding ask. They are written to agree with
+each other — if you edit one, check the other.
 
 `index.html` is **generated**. Edit files in `src/`, then:
 

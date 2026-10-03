@@ -108,16 +108,25 @@
      ================================================================ */
   function resize() {
     var pad = 28;
-    var scale = Math.min(
-      (window.innerWidth  - pad * 2) / 1920,
-      (window.innerHeight - pad * 2) / 1080
-    );
-    // never upscale past 1.0 on huge displays; keep it crisp
+    var vw = window.innerWidth  || document.documentElement.clientWidth  || 1920;
+    var vh = window.innerHeight || document.documentElement.clientHeight || 1080;
+
+    var scale = Math.min((vw - pad * 2) / 1920, (vh - pad * 2) / 1080);
+
+    // Guard against a zero-sized viewport (hidden tab, odd embed, print).
+    if (!isFinite(scale) || scale <= 0) scale = 1;
+
+    // Never upscale past 1.0 — keeps type crisp on large displays.
     scale = Math.min(scale, 1);
-    deck.style.setProperty('--scale', scale);
+
+    deck.style.setProperty('--scale', String(scale));
   }
 
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', resize);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', resize);
+  }
   resize();
 
   /* ================================================================

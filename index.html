@@ -69,19 +69,26 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 #stage {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
+  overflow: hidden;
   background:
     radial-gradient(70% 60% at 50% 0%, #0d1533 0%, #04060f 70%),
     #000;
 }
 
+/* The deck is absolutely centred, then scaled about its own centre.
+   Deliberately NOT flex/grid centring: a child larger than its centred
+   flex/grid container overflows unpredictably across engines (some clamp
+   to keep content reachable), which shoved the deck off-centre and off
+   the bottom of the viewport. Absolute + translate is deterministic. */
 #deck {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  --scale: 1;
   width: 1920px;
   height: 1080px;
+  transform: translate(-50%, -50%) scale(var(--scale));
   transform-origin: center center;
-  transform: scale(var(--scale, 1));
   background: var(--navy);
   overflow: hidden;
   box-shadow: 0 40px 140px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06);
@@ -575,9 +582,13 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
     display: block;
     background: none;
     inset: auto;
+    overflow: visible;
   }
 
   #deck {
+    position: static;
+    left: auto;
+    top: auto;
     transform: none !important;
     width: 1920px;
     height: auto;
@@ -2779,16 +2790,25 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
      ================================================================ */
   function resize() {
     var pad = 28;
-    var scale = Math.min(
-      (window.innerWidth  - pad * 2) / 1920,
-      (window.innerHeight - pad * 2) / 1080
-    );
-    // never upscale past 1.0 on huge displays; keep it crisp
+    var vw = window.innerWidth  || document.documentElement.clientWidth  || 1920;
+    var vh = window.innerHeight || document.documentElement.clientHeight || 1080;
+
+    var scale = Math.min((vw - pad * 2) / 1920, (vh - pad * 2) / 1080);
+
+    // Guard against a zero-sized viewport (hidden tab, odd embed, print).
+    if (!isFinite(scale) || scale <= 0) scale = 1;
+
+    // Never upscale past 1.0 — keeps type crisp on large displays.
     scale = Math.min(scale, 1);
-    deck.style.setProperty('--scale', scale);
+
+    deck.style.setProperty('--scale', String(scale));
   }
 
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', resize);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', resize);
+  }
   resize();
 
   /* ================================================================
