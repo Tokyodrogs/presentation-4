@@ -316,6 +316,14 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   100% { opacity: 1; transform: none; }
 }
 
+/* Rise + fade for blocks that are NOT vertically centred.
+   Do not use lockupIn here — it ends on translateY(-50%), which would
+   shift the block up by half its own height. */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* slow reveals without movement */
 .fade-in { opacity: 0; }
 .slide.is-active .fade-in {
@@ -566,6 +574,15 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   .slide.is-active .build, .slide.is-active .fade-in { opacity: 1; }
   .rain-layer { animation: none; }
   .slide { transition-duration: .01s; }
+
+  /* Same trap as print: animation-only elements must be pinned to their
+     finished state or they never appear for these users. */
+  .s1-lockup, .s10-end, .s10-map, .s10-dissolve, .spark { animation: none !important; }
+  .s1-lockup, .s10-end, .s10-map, .s10-dissolve, .spark { opacity: 1 !important; }
+
+  /* Beats and the closing fade are pure timing devices — drop them. */
+  .s1-beats { display: none !important; }
+  .fade-to-black { display: none !important; }
 }
 
 /* ==================================================================
@@ -611,6 +628,21 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   .slide:last-of-type { break-after: auto; page-break-after: auto; }
 
   .build, .fade-in { opacity: 1 !important; transform: none !important; animation: none !important; }
+
+  /* Elements that exist ONLY as animation end-points would otherwise be
+     invisible in the PDF. Force their finished state.
+     Note: opacity is forced but author transforms are NOT — several of
+     them (translateY(-50%), rotateX) carry the element's real position. */
+  .s1-lockup, .s10-end, .s10-map, .s10-dissolve, .spark { animation: none !important; }
+  .s1-lockup, .s10-end, .s10-map, .spark { opacity: 1 !important; }
+  .s10-dissolve { opacity: 1 !important; }
+
+  /* Slide 1: the four beats are timed to give way to the brand lockup.
+     With animations off they would sit on top of it, so hide them. */
+  .s1-beats { display: none !important; }
+
+  /* Slide 10: the closing fade would print a solid black page. */
+  .fade-to-black { display: none !important; }
 
   #hud, #notes, #overview, .rain-layer { display: none !important; }
 }
@@ -765,8 +797,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
 /* left — phone in the rain */
 .s2-left {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: block;
   background: linear-gradient(180deg, #060b1a 0%, #0A1128 100%);
   overflow: hidden;
 }
@@ -781,7 +812,16 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   filter: blur(30px);
 }
 
-.s2-left .phone { z-index: 3; transform: rotate(-4deg); }
+/* Sits BELOW the headline block, sized to the space that is actually
+   free (copy ends ~y514, footer band starts y990). */
+.s2-left .phone {
+  position: absolute;
+  left: 50%;
+  top: 535px;
+  width: 210px;
+  transform: translateX(-50%) rotate(-4deg);
+  z-index: 3;
+}
 
 /* right — the flooded street */
 .s2-right {
@@ -849,11 +889,13 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
 }
 
 /* the three "unknown" cards straddling the seam */
+/* Fixed left edge rather than a percentage, so the straddle across the
+   centre seam is predictable and cannot creep into the copy column. */
 .s2-cards {
   position: absolute;
-  left: 50%;
+  left: 800px;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   z-index: 25;
   display: flex;
   flex-direction: column;
@@ -882,6 +924,8 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
 .s2-card:nth-child(2) { transform: translateX(-30px) rotateY(6deg); }
 .s2-card:nth-child(3) { transform: translateX(-96px) rotateY(12deg); }
 
+/* Width and type scale chosen so the block ends at ~y514, leaving the
+   phone below it and the cards clear to its right (cards start x800). */
 .s2-copy {
   position: absolute;
   left: 120px;
@@ -890,10 +934,12 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 580px;
+  max-width: 560px;
 }
 
-.s2-copy .headline { font-size: 74px; }
+.s2-copy .headline    { font-size: 58px; }
+.s2-copy .subheadline { font-size: 50px; }
+.s2-copy .body-copy   { font-size: 28px; }
 
 /* ==================================================================
    SLIDE 3 — THE REVEAL
@@ -1262,13 +1308,14 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
 .s6-node.is-warn { border-color: rgba(255,184,0,.44); box-shadow: 0 0 40px rgba(255,184,0,.14); }
 .s6-node.is-warn .who { color: var(--amber); }
 
-/* six positions around the core */
+/* Six positions around the core. Right-hand pairs are pulled in so the
+   268px cards end inside the 1800px content margin (1500+268=1768). */
 .s6-node:nth-child(1) { left: 120px;  top: 210px; }
 .s6-node:nth-child(2) { left: 100px;  top: 640px; }
 .s6-node:nth-child(3) { left: 700px;  top: 860px; }
 .s6-node:nth-child(4) { left: 1330px; top: 860px; }
-.s6-node:nth-child(5) { left: 1560px; top: 210px; }
-.s6-node:nth-child(6) { left: 1580px; top: 640px; }
+.s6-node:nth-child(5) { left: 1500px; top: 210px; }
+.s6-node:nth-child(6) { left: 1520px; top: 640px; }
 
 /* ==================================================================
    SLIDE 7 — BUSINESS MODEL
@@ -1354,13 +1401,46 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   color: var(--ink-55);
 }
 
-.s7-flow {
-  position: absolute;
-  left: 50%;
-  top: 62%;
-  transform: translate(-50%, -50%);
-  z-index: 6;
-  opacity: .5;
+/* Revenue flow as a horizontal row. Replaces an earlier circular diagram
+   whose arc labels sat behind the pricing cards and read as a collision. */
+.s7-flowrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 34px;
+  max-width: 1400px;   /* clears the seal in the bottom-right corner */
+  flex-wrap: wrap;
+}
+
+.s7-step {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  background: rgba(0,229,255,.06);
+  border: 1px solid rgba(0,229,255,.34);
+  box-shadow: 0 0 30px rgba(0,229,255,.10);
+  text-align: center;
+}
+
+.s7-step .who {
+  font-family: var(--mono);
+  font-size: 17px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.s7-step .what {
+  font-size: 17px;
+  color: var(--ink-70);
+}
+
+.s7-arrow {
+  font-size: 26px;
+  color: rgba(0,229,255,.65);
 }
 
 .s7-secondary {
@@ -1389,9 +1469,11 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   flex-wrap: wrap;
 }
 
+/* 96px keeps all three figures on ONE line inside the 1680px content
+   width. At 128px the row measured 1966px and wrapped to two lines. */
 .s8-lockup .fig {
   font-family: var(--display);
-  font-size: 128px;
+  font-size: 96px;
   font-weight: 800;
   letter-spacing: -.04em;
   line-height: .9;
@@ -1422,7 +1504,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
 .s8-copy {
   position: relative;
   z-index: 24;
-  max-width: 620px;
+  max-width: 560px;   /* keeps clear of the city plane starting at x760 */
   margin-top: 34px;
 }
 
@@ -1441,7 +1523,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
 .s8-timeline {
   position: absolute;
   left: 120px;
-  right: 120px;
+  right: 240px;    /* right margin widened so the last step clears the seal */
   bottom: 118px;
   z-index: 26;
   display: flex;
@@ -1508,7 +1590,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 470px;
+  max-width: 450px;   /* risk grid starts at x600 */
 }
 
 .s9-copy .headline { font-size: 50px; }
@@ -1567,7 +1649,15 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
    SLIDE 10 — FINAL VISION
    ================================================================== */
 
-.s10 { justify-content: center; align-items: flex-start; padding-left: 130px; }
+/* Top-anchored rather than centred: the camera pull-up plane rises into
+   the lower half, so the text block owns the upper half and the two never
+   occupy the same band. */
+.s10 {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 130px;
+  padding-top: 168px;
+}
 
 .s10-scene { position: absolute; inset: 0; z-index: 1; }
 
@@ -1602,8 +1692,10 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   opacity: 0;
 }
 
+/* riseIn, NOT lockupIn — this block is not vertically centred, so the
+   translateY(-50%) end-state would shift it up by half its own height. */
 .slide.is-active .s10-end {
-  animation: lockupIn 1.1s var(--ease) 4.2s forwards;
+  animation: riseIn 1.1s var(--ease) 4.2s forwards;
 }
 
 .s10-brand {
@@ -1649,14 +1741,21 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   animation: fadeIn 1.6s var(--ease) 2.2s forwards;
 }
 
+/* Geometry, since rotateX makes the rendered extent much shorter than the
+   box: a rotateX(58deg) plane renders at height x cos(58deg) = 0.53 x h,
+   centred on the element's centre. With h=620 that is 329px tall.
+   Centre it on y=812 so the plane renders y648..976:
+     - starts below the text block (which ends ~y620)
+     - ends above the footer band (y990)
+   Width capped at 1440 so it stops before the seal slot at x1692. */
 .s10-map {
   position: absolute;
   left: 50%;
-  bottom: -120px;
+  bottom: -42px;
   transform: translateX(-50%) rotateX(58deg);
   transform-origin: bottom center;
-  width: 1900px;
-  height: 760px;
+  width: 1440px;
+  height: 620px;
   z-index: 10;
   opacity: 0;
 }
@@ -2215,7 +2314,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
     <span style="font-family:var(--mono);font-size:17px;color:var(--ink-40)">UPDATED: 2 MINUTES AGO</span>
   </div>
 
-  <div class="disclaimer build" style="--i:6; left:190px; bottom:196px; max-width:560px">
+  <!-- Moved under the copy column (x690+). At its old position it sat on
+       top of the phone, which occupies x190..570 down to y960. -->
+  <div class="disclaimer build" style="--i:6; left:690px; bottom:196px; max-width:600px">
     <strong>Mockup</strong> — illustrative interface. Not a live system. "Marikina Flood Point #03" is a
     placeholder name, not a deployed unit.
   </div>
@@ -2305,25 +2406,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
      SLIDE 7 — BUSINESS MODEL
      ================================================================== -->
 <section class="slide s7" data-title="How it earns" data-scene="Business model">
-  <div class="s7-flow">
-    <svg viewBox="0 0 1200 700" width="1200" height="700">
-      <defs>
-        <marker id="arrowC" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="7" markerHeight="7" orient="auto">
-          <path d="M1 1 L11 6 L1 11 z" fill="#00E5FF" opacity="0.75"/>
-        </marker>
-      </defs>
-      <g fill="none" stroke="rgba(0,229,255,.42)" stroke-width="2.4" marker-end="url(#arrowC)">
-        <path d="M600 90 A 260 260 0 0 1 825 480"/>
-        <path d="M775 520 A 260 260 0 0 1 425 520"/>
-        <path d="M375 480 A 260 260 0 0 1 600 90"/>
-      </g>
-      <g fill="rgba(0,229,255,.86)" font-family="'JetBrains Mono', monospace" font-size="21" letter-spacing="1.5" text-anchor="middle">
-        <text x="600" y="66">CUSTOMERS PAY</text>
-        <text x="905" y="530">WE MAINTAIN SENSORS + PLATFORM</text>
-        <text x="300" y="530">REAL-TIME INFORMATION DELIVERED</text>
-      </g>
-    </svg>
-  </div>
+
 
   <div class="s7-head">
     <span class="kicker build" style="--i:0">Business Model</span>
@@ -2357,6 +2440,25 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
     <span class="chip build" style="--i:8">Maintenance contracts</span>
     <span class="chip build" style="--i:9">Business dashboards</span>
     <span class="chip build" style="--i:10">API / data access</span>
+  </div>
+
+  <!-- Revenue flow, horizontal: reads left-to-right in one pass and cannot
+       collide with the pricing tier cards above it. -->
+  <div class="s7-flowrow">
+    <div class="s7-step build" style="--i:11">
+      <span class="who">Customers pay</span>
+      <span class="what">Subscription or service fee</span>
+    </div>
+    <span class="s7-arrow build" style="--i:12">→</span>
+    <div class="s7-step build" style="--i:13">
+      <span class="who">Voxstock maintains</span>
+      <span class="what">Sensors + platform</span>
+    </div>
+    <span class="s7-arrow build" style="--i:14">→</span>
+    <div class="s7-step build" style="--i:15">
+      <span class="who">Customers receive</span>
+      <span class="what">Real-time flood information</span>
+    </div>
   </div>
 </section>
 

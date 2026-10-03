@@ -307,6 +307,14 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   100% { opacity: 1; transform: none; }
 }
 
+/* Rise + fade for blocks that are NOT vertically centred.
+   Do not use lockupIn here — it ends on translateY(-50%), which would
+   shift the block up by half its own height. */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* slow reveals without movement */
 .fade-in { opacity: 0; }
 .slide.is-active .fade-in {
@@ -557,6 +565,15 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   .slide.is-active .build, .slide.is-active .fade-in { opacity: 1; }
   .rain-layer { animation: none; }
   .slide { transition-duration: .01s; }
+
+  /* Same trap as print: animation-only elements must be pinned to their
+     finished state or they never appear for these users. */
+  .s1-lockup, .s10-end, .s10-map, .s10-dissolve, .spark { animation: none !important; }
+  .s1-lockup, .s10-end, .s10-map, .s10-dissolve, .spark { opacity: 1 !important; }
+
+  /* Beats and the closing fade are pure timing devices — drop them. */
+  .s1-beats { display: none !important; }
+  .fade-to-black { display: none !important; }
 }
 
 /* ==================================================================
@@ -602,6 +619,21 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.02
   .slide:last-of-type { break-after: auto; page-break-after: auto; }
 
   .build, .fade-in { opacity: 1 !important; transform: none !important; animation: none !important; }
+
+  /* Elements that exist ONLY as animation end-points would otherwise be
+     invisible in the PDF. Force their finished state.
+     Note: opacity is forced but author transforms are NOT — several of
+     them (translateY(-50%), rotateX) carry the element's real position. */
+  .s1-lockup, .s10-end, .s10-map, .s10-dissolve, .spark { animation: none !important; }
+  .s1-lockup, .s10-end, .s10-map, .spark { opacity: 1 !important; }
+  .s10-dissolve { opacity: 1 !important; }
+
+  /* Slide 1: the four beats are timed to give way to the brand lockup.
+     With animations off they would sit on top of it, so hide them. */
+  .s1-beats { display: none !important; }
+
+  /* Slide 10: the closing fade would print a solid black page. */
+  .fade-to-black { display: none !important; }
 
   #hud, #notes, #overview, .rain-layer { display: none !important; }
 }

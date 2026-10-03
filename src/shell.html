@@ -523,7 +523,9 @@
     <span style="font-family:var(--mono);font-size:17px;color:var(--ink-40)">UPDATED: 2 MINUTES AGO</span>
   </div>
 
-  <div class="disclaimer build" style="--i:6; left:190px; bottom:196px; max-width:560px">
+  <!-- Moved under the copy column (x690+). At its old position it sat on
+       top of the phone, which occupies x190..570 down to y960. -->
+  <div class="disclaimer build" style="--i:6; left:690px; bottom:196px; max-width:600px">
     <strong>Mockup</strong> — illustrative interface. Not a live system. "Marikina Flood Point #03" is a
     placeholder name, not a deployed unit.
   </div>
@@ -613,25 +615,7 @@
      SLIDE 7 — BUSINESS MODEL
      ================================================================== -->
 <section class="slide s7" data-title="How it earns" data-scene="Business model">
-  <div class="s7-flow">
-    <svg viewBox="0 0 1200 700" width="1200" height="700">
-      <defs>
-        <marker id="arrowC" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="7" markerHeight="7" orient="auto">
-          <path d="M1 1 L11 6 L1 11 z" fill="#00E5FF" opacity="0.75"/>
-        </marker>
-      </defs>
-      <g fill="none" stroke="rgba(0,229,255,.42)" stroke-width="2.4" marker-end="url(#arrowC)">
-        <path d="M600 90 A 260 260 0 0 1 825 480"/>
-        <path d="M775 520 A 260 260 0 0 1 425 520"/>
-        <path d="M375 480 A 260 260 0 0 1 600 90"/>
-      </g>
-      <g fill="rgba(0,229,255,.86)" font-family="'JetBrains Mono', monospace" font-size="21" letter-spacing="1.5" text-anchor="middle">
-        <text x="600" y="66">CUSTOMERS PAY</text>
-        <text x="905" y="530">WE MAINTAIN SENSORS + PLATFORM</text>
-        <text x="300" y="530">REAL-TIME INFORMATION DELIVERED</text>
-      </g>
-    </svg>
-  </div>
+
 
   <div class="s7-head">
     <span class="kicker build" style="--i:0">Business Model</span>
@@ -665,6 +649,25 @@
     <span class="chip build" style="--i:8">Maintenance contracts</span>
     <span class="chip build" style="--i:9">Business dashboards</span>
     <span class="chip build" style="--i:10">API / data access</span>
+  </div>
+
+  <!-- Revenue flow, horizontal: reads left-to-right in one pass and cannot
+       collide with the pricing tier cards above it. -->
+  <div class="s7-flowrow">
+    <div class="s7-step build" style="--i:11">
+      <span class="who">Customers pay</span>
+      <span class="what">Subscription or service fee</span>
+    </div>
+    <span class="s7-arrow build" style="--i:12">→</span>
+    <div class="s7-step build" style="--i:13">
+      <span class="who">Voxstock maintains</span>
+      <span class="what">Sensors + platform</span>
+    </div>
+    <span class="s7-arrow build" style="--i:14">→</span>
+    <div class="s7-step build" style="--i:15">
+      <span class="who">Customers receive</span>
+      <span class="what">Real-time flood information</span>
+    </div>
   </div>
 </section>
 
