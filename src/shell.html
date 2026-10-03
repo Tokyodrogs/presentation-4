@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PASSABLE BA? — VOXSTOCK × TRIVOX</title>
+<meta name="description" content="Passable Ba? — street-level flood monitoring and passability alerts for the Philippines. Cinematic pitch deck.">
+
+<style>
+{{CSS}}
+</style>
+<noscript>
+<style>
+  html, body { overflow: auto !important; height: auto !important; background: #050A18 !important; }
+  #stage { position: static !important; display: block !important; inset: auto !important; }
+  #deck  { transform: none !important; width: auto !important; height: auto !important; box-shadow: none !important; }
+  .slide { position: relative !important; inset: auto !important; opacity: 1 !important;
+           visibility: visible !important; margin: 0 auto 24px !important;
+           transform: scale(0.45); transform-origin: top center; }
+  #hud, #notes, #overview { display: none !important; }
+</style>
+</noscript>
+</head>
+<body>
+
+<!-- ==================================================================
+     SVG SPRITE — shared instrument assets
+     ================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sensorBody" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0"   stop-color="#8a94a6"/>
+      <stop offset="0.5" stop-color="#525b6e"/>
+      <stop offset="1"   stop-color="#2b3140"/>
+    </linearGradient>
+  </defs>
+
+  <symbol id="sensor-unit" viewBox="0 0 260 380">
+    <rect x="10" y="92"  width="240" height="20" rx="7" fill="#232a38"/>
+    <rect x="10" y="258" width="240" height="20" rx="7" fill="#232a38"/>
+    <rect x="34" y="58" width="192" height="264" rx="24" fill="url(#sensorBody)" stroke="rgba(255,255,255,.20)" stroke-width="1.5"/>
+    <rect x="34" y="58" width="192" height="48" rx="24" fill="rgba(255,255,255,.07)"/>
+    <rect x="54" y="126" width="152" height="152" rx="16" fill="rgba(0,0,0,.30)"/>
+    <circle cx="130" cy="178" r="31" fill="#151b28" stroke="rgba(0,229,255,.55)" stroke-width="2"/>
+    <circle cx="130" cy="178" r="14" fill="rgba(0,229,255,.42)"/>
+    <rect x="70" y="224" width="120" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+    <rect x="70" y="240" width="120" height="6" rx="3" fill="rgba(255,255,255,.11)"/>
+    <rect x="70" y="256" width="120" height="6" rx="3" fill="rgba(255,255,255,.08)"/>
+    <circle cx="198" cy="86" r="7" fill="#00E5FF"/>
+    <line x1="200" y1="58" x2="200" y2="20" stroke="#39424f" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="200" cy="15" r="8" fill="#00E5FF" opacity="0.85"/>
+    <rect x="106" y="322" width="48" height="22" rx="7" fill="#232a38"/>
+    <path d="M130 344 C130 366 170 366 170 380" stroke="#232a38" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<div id="stage">
+<div id="deck">
+
+<!-- ==================================================================
+     SLIDE 1 — YOU'RE 2 KM AWAY
+     ================================================================== -->
+<section class="slide s1 is-active" data-title="You're 2 km away" data-scene="Hook">
+  <div class="s1-scene">
+    <svg viewBox="0 0 1920 1080" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="s1sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#050A18"/>
+          <stop offset="0.55" stop-color="#0A1128"/>
+          <stop offset="1"   stop-color="#070d1c"/>
+        </linearGradient>
+        <linearGradient id="s1road" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#0d1424"/>
+          <stop offset="0.4" stop-color="#141c30"/>
+          <stop offset="1"   stop-color="#1d2740"/>
+        </linearGradient>
+        <radialGradient id="s1head" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"   stop-color="#fff6d8" stop-opacity="0.85"/>
+          <stop offset="0.35" stop-color="#ffd98a" stop-opacity="0.32"/>
+          <stop offset="1"   stop-color="#ffb800" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="s1lamp" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"    stop-color="#ffe9a8" stop-opacity="0.55"/>
+          <stop offset="0.14" stop-color="#ffc95e" stop-opacity="0.30"/>
+          <stop offset="0.42" stop-color="#ffb800" stop-opacity="0.10"/>
+          <stop offset="1"    stop-color="#ffb800" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="s1rim" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"   stop-color="#00E5FF" stop-opacity="0.30"/>
+          <stop offset="1"   stop-color="#00E5FF" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="s1reflect" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffd98a" stop-opacity="0.30"/>
+          <stop offset="1" stop-color="#ffd98a" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- sky -->
+      <rect width="1920" height="1080" fill="url(#s1sky)"/>
+
+      <!-- distant city silhouette -->
+      <g fill="#080d1c" opacity="0.95">
+        <rect x="60"   y="430" width="150" height="180"/>
+        <rect x="230"  y="392" width="110" height="218"/>
+        <rect x="360"  y="452" width="180" height="158"/>
+        <rect x="1460" y="418" width="140" height="192"/>
+        <rect x="1620" y="386" width="120" height="224"/>
+        <rect x="1760" y="446" width="150" height="164"/>
+      </g>
+
+      <!-- horizon haze, separating sky from road -->
+      <rect x="0" y="486" width="1920" height="52" fill="#0e1730" opacity="0.55"/>
+
+      <!-- streetlamps: bloom + bright core + lamp head -->
+      <g>
+        <circle cx="330"  cy="492" r="185" fill="url(#s1lamp)"/>
+        <circle cx="1600" cy="486" r="200" fill="url(#s1lamp)"/>
+        <rect x="316"  y="486" width="28" height="14" rx="6" fill="#1f2739"/>
+        <rect x="1586" y="480" width="28" height="14" rx="6" fill="#1f2739"/>
+        <circle cx="330"  cy="492" r="11" fill="#ffeec0" opacity="0.92"/>
+        <circle cx="1600" cy="486" r="12" fill="#ffeec0" opacity="0.92"/>
+        <line x1="330"  y1="500" x2="330"  y2="470" stroke="#1b2334" stroke-width="7"/>
+        <line x1="1600" y1="494" x2="1600" y2="462" stroke="#1b2334" stroke-width="7"/>
+      </g>
+
+      <!-- road -->
+      <polygon points="905,520 1015,520 1760,1080 160,1080" fill="url(#s1road)"/>
+      <!-- kerb lines -->
+      <polygon points="905,520 925,520 330,1080 160,1080" fill="#101827" opacity="0.85"/>
+      <polygon points="995,520 1015,520 1760,1080 1590,1080" fill="#101827" opacity="0.85"/>
+
+      <!-- lane dashes -->
+      <g fill="#38455f" opacity="0.75">
+        <polygon points="958,540 962,540 958,566 952,566"/>
+        <polygon points="957,586 963,586 958,626 950,626"/>
+        <polygon points="956,652 964,652 957,712 946,712"/>
+        <polygon points="954,744 966,744 955,832 938,832"/>
+      </g>
+
+      <!-- wet-asphalt headlight bleed -->
+      <ellipse cx="960" cy="900" rx="620" ry="230" fill="url(#s1head)" opacity="0.55"/>
+      <rect x="880" y="520" width="160" height="560" fill="url(#s1reflect)" opacity="0.35"/>
+
+      <!-- rim glow behind the rider (cyan source, seeds the palette) -->
+      <ellipse cx="960" cy="760" rx="300" ry="280" fill="url(#s1rim)"/>
+
+      <!-- ============ RIDER SILHOUETTE (from behind) ============ -->
+      <g>
+        <!-- rear wheel -->
+        <ellipse cx="960" cy="884" rx="36" ry="40" fill="#04060c"/>
+        <ellipse cx="960" cy="884" rx="36" ry="40" fill="none" stroke="rgba(0,229,255,.42)" stroke-width="1.6"/>
+        <!-- legs -->
+        <path d="M916 742 C894 780 884 830 890 874 L926 874 C922 830 930 790 946 760 Z" fill="#080d18"/>
+        <path d="M1004 742 C1026 780 1036 830 1030 874 L994 874 C998 830 990 790 974 760 Z" fill="#080d18"/>
+        <!-- torso / shoulders -->
+        <path d="M872 690 C872 656 906 636 960 636 C1014 636 1048 656 1048 690 L1048 764 C1048 792 1014 806 960 806 C906 806 872 792 872 764 Z" fill="#070c16"/>
+        <!-- arms out to the bars -->
+        <path d="M884 700 C846 716 824 742 818 772" stroke="#070c16" stroke-width="36" stroke-linecap="round" fill="none"/>
+        <path d="M1036 700 C1074 716 1096 742 1102 772" stroke="#070c16" stroke-width="36" stroke-linecap="round" fill="none"/>
+        <!-- delivery box (on the back, facing us) -->
+        <rect x="866" y="644" width="188" height="176" rx="28" fill="#0b1220"/>
+        <rect x="866" y="644" width="188" height="176" rx="28" fill="none" stroke="rgba(0,229,255,.50)" stroke-width="1.8"/>
+        <rect x="898" y="686" width="124" height="70" rx="10" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+        <!-- helmet -->
+        <circle cx="960" cy="596" r="50" fill="#04070e"/>
+        <circle cx="960" cy="596" r="50" fill="none" stroke="rgba(0,229,255,.62)" stroke-width="2.2"/>
+        <path d="M928 572 C938 560 954 556 966 558" stroke="rgba(255,255,255,.40)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- mirrors -->
+        <line x1="820" y1="752" x2="796" y2="716" stroke="#070c16" stroke-width="8" stroke-linecap="round"/>
+        <line x1="1100" y1="752" x2="1124" y2="716" stroke="#070c16" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="794" cy="712" r="9" fill="#0b1220" stroke="rgba(0,229,255,.35)" stroke-width="1.4"/>
+        <circle cx="1126" cy="712" r="9" fill="#0b1220" stroke="rgba(0,229,255,.35)" stroke-width="1.4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="rain-layer is-slow"></div>
+  <div class="lens-bokeh"></div>
+
+  <!-- build-in text sequence -->
+  <div class="s1-beats" id="s1Beats">
+    <span class="s1-beat build build-hold" style="--i:0">YOU'RE 2 KM AWAY.</span>
+    <span class="s1-beat build build-hold" style="--i:9">IT'S RAINING.</span>
+    <span class="s1-beat build build-hold" style="--i:18">YOUR MAP SAYS THE ROAD IS OPEN.</span>
+    <span class="s1-beat is-question build build-hold" style="--i:27">BUT IS IT?</span>
+  </div>
+
+  <!-- brand lockup, arrives after the beats -->
+  <div class="s1-lockup">
+    <span class="s1-brand">VOXSTOCK</span>
+    <span class="s1-product">PASSABLE BA?</span>
+    <span class="s1-tagline">Know the road before you take it.</span>
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 2 — THE INFORMATION GAP
+     ================================================================== -->
+<section class="slide s2" data-title="The information gap" data-scene="Problem">
+  <div class="s2-split">
+    <!-- left: phone in the rain, the only light source -->
+    <div class="s2-left">
+      <div class="rain-layer"></div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="weather-app">
+            <span class="wa-icon">🌧️</span>
+            <span class="wa-temp">24°</span>
+            <span class="wa-cond">Heavy Rain</span>
+            <span class="wa-place">Metro Manila</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- right: the flooded street -->
+    <div class="s2-right">
+      <div class="rain-layer is-dense"></div>
+      <svg viewBox="0 0 960 1080" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"
+           style="position:absolute;inset:0;z-index:2">
+        <!-- kerb + road-ish geometry -->
+        <path d="M0 700 L960 640 L960 760 L0 830 Z" fill="rgba(255,184,0,.08)"/>
+        <!-- water surface -->
+        <path d="M-40 812 C240 786 420 828 700 800 C840 786 920 806 1000 796 L1000 1120 L-40 1120 Z"
+              fill="#1a1206" opacity="0.95"/>
+        <path d="M-40 812 C240 786 420 828 700 800 C840 786 920 806 1000 796"
+              stroke="rgba(255,184,0,.34)" stroke-width="2.5" fill="none"/>
+        <!-- ripples -->
+        <g stroke="rgba(255,214,130,.20)" stroke-width="2" fill="none">
+          <path d="M120 880 C180 866 240 894 300 880"/>
+          <path d="M420 940 C500 924 560 952 640 936"/>
+          <path d="M680 1000 C760 986 820 1012 900 998"/>
+          <path d="M40 1010 C110 998 160 1022 230 1010"/>
+        </g>
+        <!-- headlight streaks on the water -->
+        <ellipse cx="470" cy="900" rx="300" ry="90" fill="#ffd98a" opacity="0.10"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- headline block -->
+  <div class="s2-copy">
+    <span class="kicker build" style="--i:0">The Information Gap</span>
+    <h1 class="headline build" style="--i:1">THE WEATHER KNOWS IT'S RAINING.</h1>
+    <h2 class="subheadline build" style="--i:2">BUT DOES IT KNOW YOUR ROAD?</h2>
+    <p class="body-copy build" style="--i:3">
+      General rain warnings tell you the storm is coming. Your street, your underpass, your route — still unknown.
+    </p>
+  </div>
+
+  <!-- the three unknowns, straddling the seam -->
+  <div class="s2-cards">
+    <div class="s2-card build" style="--i:4">
+      <span class="dot"></span> WATER LEVEL: UNKNOWN
+    </div>
+    <div class="s2-card build" style="--i:5">
+      <span class="dot"></span> ROAD CONDITION: UNKNOWN
+    </div>
+    <div class="s2-card build" style="--i:6">
+      <span class="dot"></span> MOTORCYCLE: ? &nbsp;·&nbsp; CAR: ? &nbsp;·&nbsp; ALTERNATE ROUTE: ?
+    </div>
+  </div>
+
+  <div class="citation build" style="--i:7; left:120px; bottom:196px; max-width:640px">
+    <strong>Source</strong> — PAGASA: an average of <strong>20 tropical cyclones</strong> enter the
+    Philippine Area of Responsibility each year, about <strong>8–9</strong> crossing the country.
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 3 — THE REVEAL
+     ================================================================== -->
+<section class="slide s3" data-title="The reveal" data-scene="Solution">
+  <div class="s3-stage">
+    <svg viewBox="0 0 1920 1080" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="s3wall" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#0c1424"/>
+          <stop offset="0.6" stop-color="#121b2e"/>
+          <stop offset="1"   stop-color="#0a1120"/>
+        </linearGradient>
+        <linearGradient id="s3water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0d2b3a"/>
+          <stop offset="1" stop-color="#061520"/>
+        </linearGradient>
+        <radialGradient id="s3key" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#00E5FF" stop-opacity="0.26"/>
+          <stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <rect width="1920" height="1080" fill="url(#s3wall)"/>
+      <!-- brick coursing on the wall -->
+      <g stroke="rgba(255,255,255,.045)" stroke-width="2" fill="none">
+        <line x1="0" y1="200" x2="1920" y2="200"/><line x1="0" y1="300" x2="1920" y2="300"/>
+        <line x1="0" y1="400" x2="1920" y2="400"/><line x1="0" y1="500" x2="1920" y2="500"/>
+        <line x1="0" y1="600" x2="1920" y2="600"/><line x1="0" y1="700" x2="1920" y2="700"/>
+        <line x1="0" y1="800" x2="1920" y2="800"/><line x1="0" y1="900" x2="1920" y2="900"/>
+        <line x1="400"  y1="200" x2="400"  y2="700"/><line x1="800"  y1="300" x2="800"  y2="800"/>
+        <line x1="1200" y1="200" x2="1200" y2="700"/><line x1="1600" y1="300" x2="1600" y2="800"/>
+      </g>
+      <!-- cyan key light behind the sensor -->
+      <circle cx="1320" cy="560" r="520" fill="url(#s3key)"/>
+      <!-- flood water at 40 cm -->
+      <rect x="0" y="816" width="1920" height="264" fill="url(#s3water)"/>
+      <line x1="0" y1="816" x2="1920" y2="816" stroke="rgba(0,229,255,.34)" stroke-width="2.5"/>
+      <!-- water reflection of the sensor -->
+      <g opacity="0.30" transform="translate(1320,832) scale(1,-0.55) translate(-1320,-832)">
+        <use href="#sensor-unit" x="1170" y="430" width="300" height="440"/>
+      </g>
+      <g stroke="rgba(0,229,255,.12)" stroke-width="2">
+        <line x1="1050" y1="880" x2="1600" y2="880"/>
+        <line x1="1100" y1="950" x2="1560" y2="950"/>
+        <line x1="1160" y1="1020" x2="1520" y2="1020"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="rain-layer is-slow"></div>
+  <div class="lens-bokeh"></div>
+
+  <!-- the instrument -->
+  <svg viewBox="0 0 260 380" style="position:absolute;left:1170px;top:430px;width:300px;height:440px;z-index:12">
+    <use href="#sensor-unit"/>
+  </svg>
+
+  <div class="s3-holo build" style="--i:3">WATER LEVEL: 40 CM</div>
+
+  <div class="s3-copy">
+    <span class="kicker build" style="--i:0">The Solution</span>
+    <h1 class="s3-brand build" style="--i:1">PASSABLE BA?</h1>
+    <p class="body-copy build" style="--i:2">Street-level flood information, when you need it.</p>
+  </div>
+
+  <div class="s3-chain">
+    <span class="s3-node build" style="--i:4">Sensor</span>
+    <span class="s3-arrow build" style="--i:5">→</span>
+    <span class="s3-node build" style="--i:6">📡</span>
+    <span class="s3-arrow build" style="--i:7">→</span>
+    <span class="s3-node build" style="--i:8">Voxstock Cloud</span>
+    <span class="s3-arrow build" style="--i:9">→</span>
+    <span class="s3-node build" style="--i:10">Passable Ba?</span>
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 4 — SYSTEM ARCHITECTURE
+     ================================================================== -->
+<section class="slide s4" data-title="Five steps, no jargon" data-scene="How it works">
+  <div class="s4-head">
+    <span class="kicker build" style="--i:0">How It Works</span>
+    <h1 class="headline build" style="--i:1">FIVE STEPS.<br>NO JARGON.</h1>
+    <p class="body-copy build" style="--i:2">
+      A sensor measures. A network sends. A server organises. A rule decides. A person acts.
+    </p>
+  </div>
+
+  <div class="s4-stack">
+    <div class="s4-slab build" style="--i:3">
+      <span>
+        <span class="name">Sensor</span><br>
+        <span class="role">Measures water depth</span>
+      </span>
+      <span class="idx">01</span>
+    </div>
+    <div class="s4-slab build" style="--i:4">
+      <span>
+        <span class="name">Connectivity</span><br>
+        <span class="role">Sends the number</span>
+      </span>
+      <span class="idx">02</span>
+    </div>
+    <div class="s4-slab build" style="--i:5">
+      <span>
+        <span class="name">Voxstock Cloud</span><br>
+        <span class="role">Organises it</span>
+      </span>
+      <span class="idx">03</span>
+    </div>
+    <div class="s4-slab build" style="--i:6">
+      <span>
+        <span class="name">Passability Engine</span><br>
+        <span class="role">Turns it into advice</span>
+      </span>
+      <span class="idx">04</span>
+    </div>
+    <div class="s4-slab build" style="--i:7">
+      <span>
+        <span class="name">User</span><br>
+        <span class="role">Sees it and decides</span>
+      </span>
+      <span class="idx">05</span>
+    </div>
+  </div>
+
+  <div class="citation build" style="--i:8; left:120px; bottom:196px; max-width:600px">
+    <strong>Already exists</strong> — PAGASA and DOST river gauges monitor river level, e.g. Marikina City's
+    three-stage alarm at the Sto. Niño Bridge gauge (15 m prepare · 16 m evacuate · 18 m forced evacuation).
+    Passable Ba? proposes what they don't cover: <strong>street-level passability</strong>.
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 5 — PRODUCT EXPERIENCE
+     ================================================================== -->
+<section class="slide s5" data-title="What you see at 40 cm" data-scene="Product">
+  <div class="s5-stage"></div>
+  <div class="rain-layer is-slow"></div>
+  <div class="lens-bokeh"></div>
+
+  <div class="s5-copy">
+    <span class="kicker build" style="--i:0">The Product</span>
+    <h1 class="headline build" style="--i:1">WHAT YOU SEE<br>AT 40 CM.</h1>
+    <p class="body-copy build" style="--i:2">
+      Four colours, one decision: go, slow down, turn around, or stop.
+    </p>
+    <div class="s5-legend">
+      <span class="chip is-green build" style="--i:3"><span class="dot"></span>PASSABLE</span>
+      <span class="chip build" style="--i:4; color:#FFD84D; border-color:rgba(255,216,77,.45)"><span class="dot"></span>CAUTION</span>
+      <span class="chip is-amber build" style="--i:5"><span class="dot"></span>HIGH WATER</span>
+      <span class="chip is-red build" style="--i:6"><span class="dot"></span>NOT PASSABLE</span>
+    </div>
+  </div>
+
+  <!-- the phone -->
+  <div class="phone s5-phone build" style="--i:2">
+    <div class="phone-screen">
+      <div class="phone-notch"></div>
+      <svg viewBox="0 0 360 720" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="s5glow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#00E5FF" stop-opacity="0.5"/>
+            <stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="360" height="720" fill="#05080f"/>
+        <!-- district blocks -->
+        <g fill="#0b1220">
+          <rect x="16"  y="130" width="120" height="86" rx="6"/>
+          <rect x="152" y="130" width="90"  height="86" rx="6"/>
+          <rect x="258" y="130" width="86"  height="120" rx="6"/>
+          <rect x="16"  y="232" width="120" height="70" rx="6"/>
+          <rect x="152" y="232" width="90"  height="104" rx="6"/>
+          <rect x="16"  y="318" width="120" height="96" rx="6"/>
+          <rect x="258" y="266" width="86"  height="148" rx="6"/>
+          <rect x="152" y="352" width="90"  height="62" rx="6"/>
+        </g>
+        <!-- river -->
+        <path d="M-20 470 C80 452 130 496 220 478 C290 464 330 486 380 474"
+              stroke="#0a2434" stroke-width="34" fill="none"/>
+        <path d="M-20 470 C80 452 130 496 220 478 C290 464 330 486 380 474"
+              stroke="rgba(0,229,255,.16)" stroke-width="2" fill="none"/>
+        <!-- roads -->
+        <g stroke="#16233d" stroke-width="10" stroke-linecap="round">
+          <line x1="144" y1="110" x2="144" y2="620"/>
+          <line x1="248" y1="110" x2="248" y2="620"/>
+          <line x1="0"   y1="222" x2="360" y2="222"/>
+          <line x1="0"   y1="342" x2="360" y2="342"/>
+          <line x1="0"   y1="530" x2="360" y2="518"/>
+        </g>
+        <g stroke="rgba(0,229,255,.10)" stroke-width="1.4">
+          <line x1="144" y1="110" x2="144" y2="620"/>
+          <line x1="0"   y1="222" x2="360" y2="222"/>
+        </g>
+
+        <!-- status markers -->
+        <!-- red — the subject of the slide -->
+        <circle cx="248" cy="342" r="46" fill="url(#s5glow)"/>
+        <circle cx="248" cy="342" r="15" fill="#FF2D2D" stroke="#fff" stroke-width="3"/>
+        <!-- green -->
+        <circle cx="90"  cy="180" r="10" fill="#34E27A" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+        <!-- amber -->
+        <circle cx="300" cy="230" r="10" fill="#FFD84D" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+        <circle cx="62"  cy="386" r="10" fill="#FFD84D" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+        <!-- orange -->
+        <circle cx="176" cy="470" r="10" fill="#FF9B2F" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+        <!-- more green -->
+        <circle cx="300" cy="560" r="10" fill="#34E27A" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+        <circle cx="96"  cy="580" r="10" fill="#34E27A" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+        <circle cx="200" cy="140" r="10" fill="#34E27A" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+
+        <!-- you-are-here -->
+        <circle cx="90" cy="470" r="22" fill="rgba(0,229,255,.22)"/>
+        <circle cx="90" cy="470" r="9" fill="#00E5FF" stroke="#fff" stroke-width="3"/>
+      </svg>
+
+      <!-- app chrome -->
+      <div style="position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none">
+        <div style="padding:44px 22px 16px;background:linear-gradient(180deg,rgba(4,7,14,.95),transparent)">
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase">Passable Ba?</div>
+          <div style="font-family:var(--display);font-size:19px;font-weight:700;color:#fff;margin-top:5px">Metro Manila · Live</div>
+        </div>
+        <div style="margin:14px;padding:14px 16px;border-radius:18px;background:rgba(8,13,26,.9);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px)">
+          <div style="display:flex;gap:9px;align-items:center">
+            <span style="width:9px;height:9px;border-radius:50%;background:#FF2D2D;box-shadow:0 0 10px #FF2D2D"></span>
+            <span style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:#ff8b8b;text-transform:uppercase">Marikina Flood Point #03</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:24px;color:#fff;margin-top:8px">40 cm</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:3px">Updated 2 minutes ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- push notification, further back -->
+  <div class="s5-notif build" style="--i:4">
+    <div class="app"><span class="dot"></span> Passable Ba? Alert</div>
+    <div class="line">📍 Rizal Ave Underpass</div>
+    <div class="line">🌊 Water Level: <strong style="color:#fff">40 cm</strong></div>
+    <div class="line is-danger">🏍️ Motorcycles: <strong>NOT RECOMMENDED</strong></div>
+    <div class="line is-warn">🚗 Cars: CAUTION</div>
+    <div class="line" style="color:var(--ink-40);font-size:18px">🕐 Updated 2 minutes ago</div>
+  </div>
+
+  <!-- location detail, nearest to the lens -->
+  <div class="s5-callout build" style="--i:5">
+    <span class="loc">Marikina Flood Point #03</span>
+    <span class="lvl">40 cm</span>
+    <span class="rule"></span>
+    <span class="chip is-red" style="font-size:19px">🏍️ NOT RECOMMENDED FOR MOTORCYCLES</span>
+    <span class="chip is-amber" style="font-size:19px">🚗 CARS: CAUTION</span>
+    <span style="font-family:var(--mono);font-size:17px;color:var(--ink-40)">UPDATED: 2 MINUTES AGO</span>
+  </div>
+
+  <!-- Moved under the copy column (x690+). At its old position it sat on
+       top of the phone, which occupies x190..570 down to y960. -->
+  <div class="disclaimer build" style="--i:6; left:690px; bottom:196px; max-width:600px">
+    <strong>Mockup</strong> — illustrative interface. Not a live system. "Marikina Flood Point #03" is a
+    placeholder name, not a deployed unit.
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 6 — ECOSYSTEM
+     ================================================================== -->
+<section class="slide s6" data-title="One road condition" data-scene="Who needs it">
+  <div class="s6-head">
+    <span class="kicker build" style="--i:0">Who Needs It</span>
+    <h1 class="headline build" style="--i:1">ONE ROAD CONDITION.</h1>
+    <h2 class="subheadline build" style="--i:2">MANY PEOPLE NEED TO KNOW.</h2>
+  </div>
+
+  <!-- light streams from the core outward -->
+  <svg class="s6-streams" viewBox="0 0 1920 1080">
+    <defs>
+      <linearGradient id="s6beam" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#00E5FF" stop-opacity="0.55"/>
+        <stop offset="1" stop-color="#00E5FF" stop-opacity="0.05"/>
+      </linearGradient>
+    </defs>
+    <g stroke="url(#s6beam)" stroke-width="2" fill="none">
+      <line x1="960" y1="583" x2="254"  y2="250"/>
+      <line x1="960" y1="583" x2="234"  y2="680"/>
+      <line x1="960" y1="583" x2="834"  y2="900"/>
+      <line x1="960" y1="583" x2="1464" y2="900"/>
+      <line x1="960" y1="583" x2="1694" y2="250"/>
+      <line x1="960" y1="583" x2="1714" y2="680"/>
+    </g>
+  </svg>
+
+  <!-- the shared map -->
+  <div class="s6-core build" style="--i:3">
+    <svg viewBox="0 0 620 460" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="s6core" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#00E5FF" stop-opacity="0.24"/>
+          <stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="620" height="460" fill="#04070f"/>
+      <circle cx="310" cy="230" r="300" fill="url(#s6core)"/>
+      <g fill="#0b1526" stroke="rgba(0,229,255,.20)" stroke-width="1">
+        <rect x="40"  y="60"  width="120" height="90" rx="5"/>
+        <rect x="180" y="40"  width="100" height="110" rx="5"/>
+        <rect x="300" y="70"  width="130" height="80" rx="5"/>
+        <rect x="450" y="50"  width="120" height="120" rx="5"/>
+        <rect x="60"  y="180" width="140" height="100" rx="5"/>
+        <rect x="220" y="180" width="110" height="120" rx="5"/>
+        <rect x="350" y="170" width="140" height="90" rx="5"/>
+        <rect x="110" y="310" width="130" height="100" rx="5"/>
+        <rect x="270" y="320" width="120" height="90" rx="5"/>
+        <rect x="410" y="290" width="150" height="120" rx="5"/>
+      </g>
+      <g stroke="rgba(0,229,255,.34)" stroke-width="2">
+        <line x1="0" y1="165" x2="620" y2="165"/>
+        <line x1="0" y1="305" x2="620" y2="305"/>
+        <line x1="198" y1="0" x2="198" y2="460"/>
+        <line x1="338" y1="0" x2="338" y2="460"/>
+      </g>
+      <!-- live points -->
+      <g>
+        <circle cx="120" cy="120" r="6" fill="#34E27A"/>
+        <circle cx="280" cy="240" r="8" fill="#FF2D2D"/>
+        <circle cx="460" cy="200" r="6" fill="#FFD84D"/>
+        <circle cx="380" cy="360" r="6" fill="#34E27A"/>
+        <circle cx="160" cy="350" r="6" fill="#FF9B2F"/>
+        <circle cx="520" cy="330" r="6" fill="#34E27A"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- six orbiting groups -->
+  <div class="s6-orbit">
+    <div class="s6-node build" style="--i:4"><span class="who">🏍 Delivery Riders</span><span class="pain">Trip wasted. Water deep.</span></div>
+    <div class="s6-node build" style="--i:5"><span class="who">🚗 Commuters</span><span class="pain">No way to check ahead.</span></div>
+    <div class="s6-node build" style="--i:6"><span class="who">🚚 Logistics &amp; Trucking</span><span class="pain">Delays. Damaged cargo.</span></div>
+    <div class="s6-node is-warn build" style="--i:7"><span class="who">🏫 Schools</span><span class="pain">Is it safe to hold class?</span></div>
+    <div class="s6-node build" style="--i:8"><span class="who">🏭 Businesses</span><span class="pain">Staff can't get in.</span></div>
+    <div class="s6-node build" style="--i:9"><span class="who">🏛 Barangays &amp; LGUs</span><span class="pain">Few extra eyes on the road.</span></div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 7 — BUSINESS MODEL
+     ================================================================== -->
+<section class="slide s7" data-title="How it earns" data-scene="Business model">
+
+
+  <div class="s7-head">
+    <span class="kicker build" style="--i:0">Business Model</span>
+    <h1 class="headline build" style="--i:1">HOW IT EARNS.</h1>
+    <div class="s7-label build" style="--i:2">Proposed initial pricing — not market-established</div>
+    <p class="body-copy build" style="--i:3; text-align:center">
+      Three customers, one platform, and a recurring reason to keep the sensors alive.
+    </p>
+  </div>
+
+  <div class="s7-tiers">
+    <div class="s7-tier build" style="--i:4">
+      <span class="who">Individual · Riders</span>
+      <span class="price">₱50–₱100</span>
+      <span class="note">per month · proposed</span>
+    </div>
+    <div class="s7-tier build" style="--i:5">
+      <span class="who">Business</span>
+      <span class="price">~₱5,000</span>
+      <span class="note">per month · proposed</span>
+    </div>
+    <div class="s7-tier build" style="--i:6">
+      <span class="who">Barangay · LGU</span>
+      <span class="price">Annual service contract</span>
+      <span class="note">proposed</span>
+    </div>
+  </div>
+
+  <div class="s7-secondary">
+    <span class="chip build" style="--i:7">Sensor installation</span>
+    <span class="chip build" style="--i:8">Maintenance contracts</span>
+    <span class="chip build" style="--i:9">Business dashboards</span>
+    <span class="chip build" style="--i:10">API / data access</span>
+  </div>
+
+  <!-- Revenue flow, horizontal: reads left-to-right in one pass and cannot
+       collide with the pricing tier cards above it. -->
+  <div class="s7-flowrow">
+    <div class="s7-step build" style="--i:11">
+      <span class="who">Customers pay</span>
+      <span class="what">Subscription or service fee</span>
+    </div>
+    <span class="s7-arrow build" style="--i:12">→</span>
+    <div class="s7-step build" style="--i:13">
+      <span class="who">Voxstock maintains</span>
+      <span class="what">Sensors + platform</span>
+    </div>
+    <span class="s7-arrow build" style="--i:14">→</span>
+    <div class="s7-step build" style="--i:15">
+      <span class="who">Customers receive</span>
+      <span class="what">Real-time flood information</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 8 — MVP ROADMAP
+     ================================================================== -->
+<section class="slide s8" data-title="5–10 sensors, 1 city, 30 days" data-scene="MVP">
+  <div class="s8-city">
+    <svg viewBox="0 0 1080 620">
+      <defs>
+        <linearGradient id="s8grid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0d1730"/>
+          <stop offset="1" stop-color="#070c1c"/>
+        </linearGradient>
+        <radialGradient id="s8pulse" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#00E5FF" stop-opacity="0.65"/>
+          <stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1080" height="620" rx="20" fill="url(#s8grid)" stroke="rgba(0,229,255,.24)" stroke-width="2"/>
+      <g fill="#101c34" stroke="rgba(0,229,255,.14)" stroke-width="1.5">
+        <rect x="60"  y="60"  width="190" height="130" rx="8"/>
+        <rect x="290" y="40"  width="160" height="150" rx="8"/>
+        <rect x="490" y="70"  width="210" height="120" rx="8"/>
+        <rect x="740" y="50"  width="180" height="140" rx="8"/>
+        <rect x="90"  y="230" width="170" height="140" rx="8"/>
+        <rect x="300" y="240" width="150" height="150" rx="8"/>
+        <rect x="490" y="230" width="200" height="130" rx="8"/>
+        <rect x="730" y="240" width="190" height="150" rx="8"/>
+        <rect x="140" y="410" width="180" height="140" rx="8"/>
+        <rect x="360" y="420" width="160" height="130" rx="8"/>
+        <rect x="560" y="400" width="170" height="150" rx="8"/>
+        <rect x="770" y="430" width="160" height="120" rx="8"/>
+      </g>
+      <g stroke="rgba(0,229,255,.40)" stroke-width="2.5">
+        <line x1="0" y1="205" x2="1080" y2="205"/>
+        <line x1="0" y1="395" x2="1080" y2="395"/>
+        <line x1="275" y1="0" x2="275" y2="620"/>
+        <line x1="470" y1="0" x2="470" y2="620"/>
+        <line x1="710" y1="0" x2="710" y2="620"/>
+      </g>
+      <!-- candidate sensor points -->
+      <g>
+        <circle cx="160" cy="140" r="34" fill="url(#s8pulse)"/>
+        <circle cx="160" cy="140" r="10" fill="#00E5FF" stroke="#fff" stroke-width="2.5"/>
+        <circle cx="620" cy="180" r="34" fill="url(#s8pulse)"/>
+        <circle cx="620" cy="180" r="10" fill="#00E5FF" stroke="#fff" stroke-width="2.5"/>
+        <circle cx="430" cy="470" r="34" fill="url(#s8pulse)"/>
+        <circle cx="430" cy="470" r="10" fill="#00E5FF" stroke="#fff" stroke-width="2.5"/>
+        <circle cx="860" cy="320" r="34" fill="url(#s8pulse)"/>
+        <circle cx="860" cy="320" r="10" fill="#00E5FF" stroke="#fff" stroke-width="2.5"/>
+        <circle cx="250" cy="350" r="26" fill="url(#s8pulse)"/>
+        <circle cx="250" cy="350" r="8" fill="#00E5FF" stroke="#fff" stroke-width="2.5"/>
+      </g>
+      <!-- the route threading the points -->
+      <path d="M160 140 L250 350 L430 470 L620 180 L860 320"
+            stroke="rgba(0,229,255,.6)" stroke-width="2.5" stroke-dasharray="10 12" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="s8-lockup">
+    <span class="fig build" style="--i:0">5–10 SENSORS</span>
+    <span class="sep build" style="--i:1">·</span>
+    <span class="fig build" style="--i:2">1 CITY</span>
+    <span class="sep build" style="--i:3">·</span>
+    <span class="fig build" style="--i:4">30 DAYS</span>
+  </div>
+
+  <p class="body-copy s8-copy build" style="--i:5">
+    Before we scale, we prove it works — on one street, with real water, real riders, real data.
+  </p>
+
+  <div class="s8-pilots">
+    <div class="s8-pilot-row">
+      <span class="chip build" style="--i:6">Marikina</span>
+      <span class="chip build" style="--i:7">Pasig</span>
+      <span class="chip build" style="--i:8">Cagayan de Oro</span>
+    </div>
+    <div class="disclaimer build" style="--i:9; position:static; max-width:none; border-left:none; padding-left:0">
+      Examples only — no partnerships exist yet.
+    </div>
+  </div>
+
+  <div class="s8-timeline">
+    <div class="s8-step build" style="--i:10"><span class="num">01</span><span class="lbl">Identify flood-prone locations</span></div>
+    <div class="s8-step build" style="--i:11"><span class="num">02</span><span class="lbl">Partner with barangay / owner</span></div>
+    <div class="s8-step build" style="--i:12"><span class="num">03</span><span class="lbl">Install 5–10 sensors</span></div>
+    <div class="s8-step build" style="--i:13"><span class="num">04</span><span class="lbl">Collect real-world data</span></div>
+    <div class="s8-step build" style="--i:14"><span class="num">05</span><span class="lbl">Test accuracy + user response</span></div>
+    <div class="s8-step build" style="--i:15"><span class="num">06</span><span class="lbl">Improve, then scale</span></div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 9 — CHALLENGES & SOLUTIONS
+     ================================================================== -->
+<section class="slide s9" data-title="We don't ignore the risks" data-scene="Risks">
+  <div class="rain-layer is-dense"></div>
+  <div class="lens-bokeh"></div>
+
+  <!-- one sensor, alone, in the rain -->
+  <div class="s9-sensor">
+    <svg viewBox="0 0 340 560" width="100%">
+      <defs>
+        <linearGradient id="s9post" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#1a2030"/>
+          <stop offset="0.5" stop-color="#2c3444"/>
+          <stop offset="1" stop-color="#151b28"/>
+        </linearGradient>
+        <radialGradient id="s9work" cx="0.5" cy="0.2" r="0.7">
+          <stop offset="0" stop-color="#FFB800" stop-opacity="0.34"/>
+          <stop offset="1" stop-color="#FFB800" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="170" cy="200" rx="240" ry="320" fill="url(#s9work)"/>
+      <rect x="120" y="330" width="100" height="230" fill="url(#s9post)"/>
+      <rect x="96" y="316" width="148" height="22" rx="6" fill="#232a38"/>
+      <use href="#sensor-unit" x="60" y="40" width="220" height="320"/>
+      <!-- rising water -->
+      <path d="M-20 500 C60 488 130 512 220 496 C280 486 330 502 380 494 L380 580 L-20 580 Z"
+            fill="#0a1420"/>
+      <path d="M-20 500 C60 488 130 512 220 496 C280 486 330 502 380 494"
+            stroke="rgba(0,229,255,.32)" stroke-width="2.5" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="s9-copy">
+    <span class="kicker build" style="--i:0">Challenges &amp; Solutions</span>
+    <h1 class="headline build" style="--i:1">WE DON'T IGNORE THE RISKS.</h1>
+    <h2 class="subheadline build" style="--i:2">WE DESIGN AROUND THEM.</h2>
+    <p class="body-copy build" style="--i:3">Every failure below has an answer built into the plan.</p>
+  </div>
+
+  <div class="s9-cards">
+    <div class="s9-card build" style="--i:4"><span class="risk">Sensor theft</span><span class="div"></span><span class="fix">Secure mounting + barangay partnership</span></div>
+    <div class="s9-card build" style="--i:5"><span class="risk">Vandalism</span><span class="div"></span><span class="fix">Protected enclosure</span></div>
+    <div class="s9-card build" style="--i:6"><span class="risk">Bad readings</span><span class="div"></span><span class="fix">Calibration + multiple measurements</span></div>
+    <div class="s9-card build" style="--i:7"><span class="risk">Network failure</span><span class="div"></span><span class="fix">Local storage + backup connectivity</span></div>
+    <div class="s9-card build" style="--i:8"><span class="risk">Power failure</span><span class="div"></span><span class="fix">Battery / solar backup</span></div>
+    <div class="s9-card build" style="--i:9"><span class="risk">Permission</span><span class="div"></span><span class="fix">Partner with barangay / LGU / owner</span></div>
+    <div class="s9-card build" style="--i:10"><span class="risk">Maintenance</span><span class="div"></span><span class="fix">Scheduled inspections</span></div>
+    <div class="s9-card build" style="--i:11"><span class="risk">False alerts</span><span class="div"></span><span class="fix">Data validation + sensor health monitoring</span></div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     SLIDE 10 — FINAL VISION
+     ================================================================== -->
+<section class="slide s10" data-title="Know before you go" data-scene="Vision">
+  <div class="s10-scene">
+    <svg viewBox="0 0 1920 1080" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="s10sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   stop-color="#050A18"/>
+          <stop offset="0.6" stop-color="#0A1128"/>
+          <stop offset="1"   stop-color="#070d1c"/>
+        </linearGradient>
+        <linearGradient id="s10road" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0d1424"/>
+          <stop offset="1" stop-color="#1b2540"/>
+        </linearGradient>
+        <radialGradient id="s10head" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#fff6d8" stop-opacity="0.7"/>
+          <stop offset="1" stop-color="#ffb800" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#s10sky)"/>
+      <g fill="#080d1c">
+        <rect x="60" y="430" width="150" height="180"/><rect x="230" y="392" width="110" height="218"/>
+        <rect x="360" y="452" width="180" height="158"/><rect x="1460" y="418" width="140" height="192"/>
+        <rect x="1620" y="386" width="120" height="224"/><rect x="1760" y="446" width="150" height="164"/>
+      </g>
+      <polygon points="905,520 1015,520 1760,1080 160,1080" fill="url(#s10road)"/>
+      <ellipse cx="960" cy="920" rx="620" ry="220" fill="url(#s10head)" opacity="0.4"/>
+
+      <!-- the flood ahead -->
+      <path d="M-40 900 C300 878 520 918 900 894 C1250 872 1500 906 1960 884 L1960 1120 L-40 1120 Z"
+            fill="#0a1420"/>
+      <path d="M-40 900 C300 878 520 918 900 894 C1250 872 1500 906 1960 884"
+            stroke="rgba(255,45,45,.45)" stroke-width="3" fill="none"/>
+
+      <!-- same rider, now stopped short of the water -->
+      <g transform="translate(960,660) scale(0.86) translate(-960,-660)">
+        <ellipse cx="960" cy="884" rx="36" ry="40" fill="#04060c" stroke="rgba(0,229,255,.42)" stroke-width="1.6"/>
+        <path d="M916 742 C894 780 884 830 890 874 L926 874 C922 830 930 790 946 760 Z" fill="#080d18"/>
+        <path d="M1004 742 C1026 780 1036 830 1030 874 L994 874 C998 830 990 790 974 760 Z" fill="#080d18"/>
+        <path d="M872 690 C872 656 906 636 960 636 C1014 636 1048 656 1048 690 L1048 764 C1048 792 1014 806 960 806 C906 806 872 792 872 764 Z" fill="#070c16"/>
+        <path d="M884 700 C846 716 824 742 818 772" stroke="#070c16" stroke-width="36" stroke-linecap="round" fill="none"/>
+        <path d="M1036 700 C1074 716 1096 742 1102 772" stroke="#070c16" stroke-width="36" stroke-linecap="round" fill="none"/>
+        <rect x="866" y="644" width="188" height="176" rx="28" fill="#0b1220" stroke="rgba(0,229,255,.5)" stroke-width="1.8"/>
+        <circle cx="960" cy="596" r="50" fill="#04070e" stroke="rgba(0,229,255,.62)" stroke-width="2.2"/>
+      </g>
+
+      <!-- the alternate route, glowing cyan -->
+      <path d="M760 880 C560 820 420 700 300 560 C210 456 150 380 80 300"
+            stroke="#00E5FF" stroke-width="7" fill="none" stroke-linecap="round"
+            opacity="0.95" style="filter:drop-shadow(0 0 18px rgba(0,229,255,.9))"/>
+      <path d="M760 880 C560 820 420 700 300 560 C210 456 150 380 80 300"
+            stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    </svg>
+  </div>
+
+  <div class="rain-layer is-slow"></div>
+  <div class="lens-bokeh"></div>
+
+  <!-- the camera pulls up: road dissolves into the city map, sensors ignite -->
+  <div class="s10-dissolve"></div>
+  <div class="s10-map">
+    <svg viewBox="0 0 1900 760">
+      <defs>
+        <radialGradient id="s10spark" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#00E5FF" stop-opacity="1"/>
+          <stop offset="0.4" stop-color="#00E5FF" stop-opacity="0.5"/>
+          <stop offset="1" stop-color="#00E5FF" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <g stroke="rgba(0,229,255,.20)" stroke-width="1.6">
+        <line x1="0" y1="120" x2="1900" y2="120"/><line x1="0" y1="260" x2="1900" y2="260"/>
+        <line x1="0" y1="400" x2="1900" y2="400"/><line x1="0" y1="540" x2="1900" y2="540"/>
+        <line x1="0" y1="680" x2="1900" y2="680"/>
+        <line x1="240" y1="0" x2="240" y2="760"/><line x1="520" y1="0" x2="520" y2="760"/>
+        <line x1="800" y1="0" x2="800" y2="760"/><line x1="1080" y1="0" x2="1080" y2="760"/>
+        <line x1="1360" y1="0" x2="1360" y2="760"/><line x1="1640" y1="0" x2="1640" y2="760"/>
+      </g>
+      <g class="sparks">
+        <!-- 36 sensor points, igniting outward from centre -->
+        <circle class="spark" style="--d:0"  cx="950"  cy="400" r="7" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:1"  cx="820"  cy="330" r="7" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:2"  cx="1080" cy="330" r="7" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:3"  cx="820"  cy="470" r="7" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:4"  cx="1080" cy="470" r="7" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:5"  cx="690"  cy="260" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:6"  cx="1210" cy="260" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:7"  cx="690"  cy="540" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:8"  cx="1210" cy="540" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:9"  cx="560"  cy="190" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:10" cx="1340" cy="190" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:11" cx="560"  cy="610" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:12" cx="1340" cy="610" r="6" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:13" cx="430"  cy="320" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:14" cx="1470" cy="320" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:15" cx="430"  cy="480" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:16" cx="1470" cy="480" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:17" cx="300"  cy="200" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:18" cx="1600" cy="200" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:19" cx="300"  cy="600" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:20" cx="1600" cy="600" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:21" cx="180"  cy="360" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:22" cx="1720" cy="360" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:23" cx="180"  cy="520" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:24" cx="1720" cy="520" r="5" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:25" cx="80"   cy="180" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:26" cx="1820" cy="180" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:27" cx="80"   cy="660" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:28" cx="1820" cy="660" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:29" cx="950"  cy="140" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:30" cx="950"  cy="660" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:31" cx="380"  cy="120" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:32" cx="1520" cy="120" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:33" cx="380"  cy="700" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:34" cx="1520" cy="700" r="4" fill="url(#s10spark)"/>
+        <circle class="spark" style="--d:35" cx="950"  cy="400" r="12" fill="url(#s10spark)"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="s10-copy">
+    <span class="kicker build" style="--i:0">The Vision</span>
+    <span class="s10-line build" style="--i:1">DON'T JUST KNOW IF IT'S RAINING.</span>
+    <span class="s10-line is-cyan build" style="--i:2">KNOW IF THE ROAD IS PASSABLE.</span>
+  </div>
+
+  <div class="s10-end">
+    <span class="s10-brand">PASSABLE BA?</span>
+    <span class="s10-tag">Know before you go.</span>
+    <span class="s10-members">
+      VOXSTOCK · TRIVOX — Versoza, Azhley Nicole D. · Abique, Breian I. · Profeta, Dref Nicolo F.<br>
+      Sablayan National Comprehensive High School (SABNAHIS) · Grade 12 – James Gosling
+    </span>
+  </div>
+
+  <div class="fade-to-black"></div>
+</section>
+
+</div><!-- /#deck -->
+</div><!-- /#stage -->
+
+<!-- ==================================================================
+     HUD
+     ================================================================== -->
+<div id="hud">
+  <button id="prev" title="Previous (←)">←</button>
+  <span id="counter">1 / 10</span>
+  <button id="next" title="Next (→)">→</button>
+  <div id="progress-rail"><div id="progress-bar"></div></div>
+  <button id="btn-notes" title="Speaker notes (N)">Notes</button>
+  <button id="btn-grid" title="Overview (G)">Grid</button>
+  <button id="btn-full" title="Fullscreen (F)">Full</button>
+  <button id="btn-hud" title="Hide controls (H)">Hide</button>
+</div>
+
+<!-- ==================================================================
+     SPEAKER NOTES
+     ================================================================== -->
+<aside id="notes" aria-hidden="true">
+  <div class="notes-head">
+    <span class="label">Speaker notes</span>
+    <span style="flex:1"></span>
+    <button id="notes-close" style="padding:6px 10px;border:1px solid rgba(255,255,255,.14);border-radius:8px">Close</button>
+  </div>
+  <div class="notes-body">
+    <div class="notes-title" id="notes-title">—</div>
+    <div class="notes-text" id="notes-text">No slide selected.</div>
+    <div class="notes-cue" id="notes-cue"></div>
+  </div>
+</aside>
+
+<!-- ==================================================================
+     OVERVIEW GRID
+     ================================================================== -->
+<div id="overview"><div class="ov-grid" id="ov-grid"></div></div>
+
+<script>
+{{JS}}
+</script>
+</body>
+</html>
